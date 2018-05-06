@@ -8,10 +8,15 @@
 #echo ""
 
 solr_ver=7.2.1
+
+echo ""
 echo "***"
 echo "Solr $solr_ver"
+echo "Note: There is a newer version out (7.3 released April 2018)"
+echo " => consider upgrading?"
 echo "***"
-wget http://www-us.apache.org/dist/lucene/solr/$solr_ver/solr-$solr_ver.tgz
+echo ""
+wget http://archive.apache.org/dist/lucene/solr/$solr_ver/solr-$solr_ver.tgz
 
 echo "***"
 echo ""
