@@ -21,7 +21,7 @@ if [ "x$SOLR_SHARDS" != "x" ] ; then
 	ssh $solr_host "if [ ! -d $solr_home_shard_dir ] ; then mkdir $solr_home_shard_dir ; fi"
 	rsync -pav "$SOLR_HOME/." "$remote_dir/."
 
-	server_dir="/disk0/solr-server-$solr_host-$solr_port"
+	server_dir="$SOLR_SERVER_BASE_JETTY_DIR/solr-server-$solr_host-$solr_port"
 	remote_server_dir="$solr_host:$server_dir"
 	
 	echo "Running rsync from networked SOLR_TOP_LEVEL_HOME/server to $remote_server_dir"

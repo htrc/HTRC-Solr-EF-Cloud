@@ -18,7 +18,7 @@ if [ "x$SOLR_SHARDS" != "x" ] ; then
 	solr_host=${solr_node%:*}
 	solr_port=${solr_node##*:}
 
-	server_dir="/disk0/solr-server-$solr_host-$solr_port"
+	server_dir="$SOLR_SERVER_BASE_JETTY_DIR/solr-server-$solr_host-$solr_port"
 	
 	export SOLR_HOME=
 	export SOLR_PID_DIR=
