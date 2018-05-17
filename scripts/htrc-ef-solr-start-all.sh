@@ -1,6 +1,6 @@
 #!/bin/bash
 
-solr_cmd=${1-start}
+solr_cmd=${1:-start}
 
 if [ "x$SOLR_SHARDS" != "x" ] ; then
     SOLR_NODES_ARRAY=($SOLR_NODES)
