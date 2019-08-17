@@ -1,4 +1,6 @@
 #!/bin/bash
 
-solr healthcheck -c faceted-htrc-full-ef20 -z $ZOOKEEPER_SERVER 
+col=${1:-solr3456-faceted-htrc-full-ef16}
+
+solr healthcheck -c $col -z $ZOOKEEPER_SERVER 
 
