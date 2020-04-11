@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo ""
-echo "Configsets in $SOLR_HOME:"
+echo "Configsets in $SOLR8_HOME:"
 solr_configsets=`ls "$SOLR8_HOME/configsets/"`
 for sc in $solr_configsets ; do
     echo "  $sc"
