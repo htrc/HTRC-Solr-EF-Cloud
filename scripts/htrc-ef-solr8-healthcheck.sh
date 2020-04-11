@@ -16,5 +16,5 @@ else
     col=${1:-solr3456-faceted-htrc-full-ef16}
 fi
 
-"$SOLR8_HOME/bin/solr" healthcheck -c "$col" -z $ZOOKEEPER8_SERVER -s "$SOLR8_HOME"
+"$SOLR8_TOP_LEVEL_HOME/bin/solr" healthcheck -c "$col" -z $ZOOKEEPER8_SERVER -s "$SOLR8_HOME"
 

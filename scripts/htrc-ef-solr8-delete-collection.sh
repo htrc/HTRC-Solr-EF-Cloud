@@ -7,5 +7,5 @@ solr_host=${solr_node_head%:*}
 solr_col=${1:-htrc-full-ef}
 
 ssh $solr_host \
-  "$SOLR8_HOME/bin/solr" delete \
+  "$SOLR8_TOP_LEVEL_HOME/bin/solr" delete \
      -c $solr_col

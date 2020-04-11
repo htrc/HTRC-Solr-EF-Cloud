@@ -37,7 +37,7 @@ if [ "x$SOLR8_SHARDS" != "x" ] ; then
 	  if [ "x$SOLR_JAVA_MEM" != "x" ] ; then
 	    echo "=> SOLR_JAVA_MEM=$SOLR_JAVA_MEM"
 	  fi
-  	    ssh $solr_host "$SOLR8_HOME/bin/solr" $solr_cmd -cloud -z $ZOOKEEPER8_SERVER -h $solr_host -p $solr_port -d "$server_dir" -s "$solr_home_shard_dir"
+  	    ssh $solr_host "$SOLR8_TOP_LEVEL_HOME/bin/solr" $solr_cmd -cloud -z $ZOOKEEPER8_SERVER -h $solr_host -p $solr_port -d "$server_dir" -s "$solr_home_shard_dir"
 	fi
 	
 	i=$((i+1))
@@ -69,6 +69,6 @@ else
 	solr_port=${solr_node##*:}
 	
 	echo "Starting solr8 cloud node on: $solr_host [port $solr_port]"
-	ssh $solr_host "$SOLR8_HOME/bin/solr" $solr_cmd -cloud -z $ZOOKEEPER8_SERVER -h $solr_host -p $solr_port $opt_s
+	ssh $solr_host "$SOLR8_TOP_LEVEL_HOME/bin/solr" $solr_cmd -cloud -z $ZOOKEEPER8_SERVER -h $solr_host -p $solr_port $opt_s
     done
 fi

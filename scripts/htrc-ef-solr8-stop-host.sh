@@ -18,6 +18,6 @@ for solr_node in $SOLR8_NODES ; do
     export SOLR_HOME=
     export SOLR_PID_DIR=
     echo "Stopping Solr8 cloud node: $solr_host"
-    ssh $solr_host "$SOLR8_HOME/bin/solr" stop -p $solr_port 
+    ssh $solr_host "$SOLR8_TOP_LEVEL_HOME/bin/solr" stop -p $solr_port 
   fi
 done
