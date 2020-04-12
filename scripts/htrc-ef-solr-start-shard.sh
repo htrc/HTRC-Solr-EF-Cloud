@@ -17,6 +17,7 @@ if [ "x$SOLR_SHARDS" != "x" ] ; then
 	
 	solr_host=${solr_node%:*}
 	solr_port=${solr_node##*:}
+	solr_stop_port=$((solr_port-100))
 
 	server_dir="$SOLR_SERVER_BASE_JETTY_DIR/solr-server-$solr_host-$solr_port"
 	
@@ -25,11 +26,18 @@ if [ "x$SOLR_SHARDS" != "x" ] ; then
 	#export SOLR_PID_DIR="$solr_home_shard_dir"
        	if [ "$core_num" == "null" ] || [ "$core_num" == "$i" ] ; then
 
-	  echo "Starting solr cloud node on: $solr_host:$solr_port solr_home=$solr_home_shard_dir"
+	    echo "Starting solr cloud node on: $solr_host:$solr_port solr_home=$solr_home_shard_dir"
+	    echo "  STOP.PORT overridden to be auto-magically solr.port minus 100: $solr_stop_port"
+	    
 	  if [ "x$SOLR_JAVA_MEM" != "x" ] ; then
 	    echo "=> SOLR_JAVA_MEM=$SOLR_JAVA_MEM"
 	  fi
-  	    ssh $solr_host solr $solr_cmd -cloud -z $ZOOKEEPER_SERVER -h $solr_host -p $solr_port -d "$server_dir" -s "$solr_home_shard_dir"
+
+#  	  ssh $solr_host solr $solr_cmd -cloud -z $ZOOKEEPER_SERVER -h $solr_host -p $solr_port -d "$server_dir" -s "$solr_home_shard_dir"
+	  ssh $solr_host "export SOLR_STOP=$solr_stop_port" \&\& \
+  	      \"\$SOLR7_TOP_LEVEL_HOME/bin/solr\" $solr_cmd -cloud -z $ZOOKEEPER_SERVER \
+	      -h $solr_host -p $solr_port -d "$server_dir" -s "$solr_home_shard_dir"
+	  
 	fi
 	
 	i=$((i+1))
@@ -55,8 +63,16 @@ else
     for solr_node in $SOLR_NODES ; do
 	solr_host=${solr_node%:*}
 	solr_port=${solr_node##*:}
+	solr_stop_port=$((solr_port-100))
 	
 	echo "Starting solr cloud node on: $solr_host [port $solr_port]"
-	ssh $solr_host solr $solr_cmd -cloud -z $ZOOKEEPER_SERVER -h $solr_host -p $solr_port $opt_s
+	echo "  STOP.PORT overridden to be auto-magically solr.port minus 100: $solr_stop_port"
+	
+#	ssh $solr_host solr $solr_cmd -cloud -z $ZOOKEEPER_SERVER -h $solr_host -p $solr_port $opt_s
+	ssh $solr_host "export SOLR_STOP=$solr_stop_port" \&\& \
+  	    \"\$SOLR7_TOP_LEVEL_HOME/bin/solr\" $solr_cmd -cloud -z $ZOOKEEPER_SERVER \
+	    -h $solr_host -p $solr_port $opt_s
+	
+	  
     done
 fi

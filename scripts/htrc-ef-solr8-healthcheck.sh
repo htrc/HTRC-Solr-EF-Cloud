@@ -22,5 +22,4 @@ fi
 
 "$SOLR8_TOP_LEVEL_HOME/bin/solr" healthcheck -c "$col" -z $ZOOKEEPER8_SERVER
 
-# -s "$SOLR8_HOME"
 

@@ -72,8 +72,15 @@ else
     for solr_node in $SOLR8_NODES ; do
 	solr_host=${solr_node%:*}
 	solr_port=${solr_node##*:}
+	solr_stop_port=$((solr_port-100))
 	
 	echo "Starting solr8 cloud node on: $solr_host [port $solr_port]"
-	ssh $solr_host "$SOLR8_TOP_LEVEL_HOME/bin/solr" $solr_cmd -cloud -z $ZOOKEEPER8_SERVER -h $solr_host -p $solr_port $opt_s
+	echo "  STOP.PORT overridden to be auto-magically solr.port minus 100: $solr_stop_port"
+	
+#	ssh $solr_host "$SOLR8_TOP_LEVEL_HOME/bin/solr" $solr_cmd -cloud -z $ZOOKEEPER8_SERVER -h $solr_host -p $solr_port $opt_s
+	ssh $solr_host "export SOLR_STOP=$solr_stop_port" \&\& \
+  	    \"\$SOLR8_TOP_LEVEL_HOME/bin/solr\" $solr_cmd -cloud -z $ZOOKEEPER8_SERVER \
+	    -h $solr_host -p $solr_port $opt_s
+	
     done
 fi
