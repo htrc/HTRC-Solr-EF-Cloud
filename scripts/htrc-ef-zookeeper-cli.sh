@@ -1,3 +1,3 @@
 #!/bin/bash
 
-zkCli.sh -server $ZOOKEEPER_SERVER $*
+"$ZOOKEEPER_HOME/bin/zkCli.sh" -server $ZOOKEEPER_SERVER $*
