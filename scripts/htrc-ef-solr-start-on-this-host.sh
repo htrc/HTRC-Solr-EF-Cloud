@@ -1,3 +1,3 @@
 #!/bin/bash
 
-htrc-ef-solr-cmd-on-this-host.sh start
+htrc-ef-solr7-cmd-on-this-host.sh start
