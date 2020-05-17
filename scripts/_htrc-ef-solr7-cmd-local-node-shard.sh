@@ -39,8 +39,11 @@ if [ $solr_cmd = "start" ] || [ $solr_cmd = "restart" ] ; then
     export SOLR_STOP=$solr_stop_port    
     "$SOLR7_TOP_LEVEL_HOME/bin/solr" $solr_cmd -cloud -z $ZOOKEEPER_SERVER \
       -h $solr_host -p $solr_port -d "$server_dir" -s "$solr_home_shard_dir"
+elif [ $solr_cmd = "stop" ] ; then
+    export SOLR_STOP=$solr_stop_port
+    "$SOLR7_TOP_LEVEL_HOME/bin/solr" $solr_cmd -p $solr_port
 else
-    # stop, status
-    "$SOLR7_TOP_LEVEL_HOME/bin/solr" $solr_cmd -cloud -z $ZOOKEEPER_SERVER
+    # status
+    "$SOLR7_TOP_LEVEL_HOME/bin/solr" $solr_cmd -z $ZOOKEEPER_SERVER
 fi
 

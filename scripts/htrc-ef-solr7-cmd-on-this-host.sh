@@ -31,14 +31,16 @@ while [ $i -lt $num_shards ] ; do
 
     if [ $solr_host = $short_hostname ] ; then
 	. "$htrc_ef_solr_cloud_script_dir/_htrc-ef-solr7-cmd-local-node-shard.sh"
+
+	if [ "$solr_cmd" = "status" ] ; then
+	    # Solr 'status' command prints out details about *all* the nodes known about
+	    # on *this* *specific* *machine* in the Solr cloud/cluster
+	    # => So no need to loop around any more values
+	    break;
+	fi
+	
     fi
 
-    if [ "$solr_cmd" = "status" ] ; then
-	# Solr 'status' command prints out details about *all* the nodes known about
-	# on *this* *specific* *machine* in the Solr cloud/cluster
-	# => So no need to loop around any more values
-	break;
-    fi
     
     i=$((i+1))
 done
