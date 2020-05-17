@@ -1,3 +1,3 @@
 #!/bin/bash
 
-htrc-ef-solr-cmd-on-this-host.sh status
+htrc-ef-solr7-cmd-on-this-host.sh status

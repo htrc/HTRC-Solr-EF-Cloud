@@ -1,4 +1,4 @@
 #!/bin/bash
 
-htrc-ef-solr-cmd-on-this-host.sh stop
+htrc-ef-solr7-cmd-on-this-host.sh stop
 
