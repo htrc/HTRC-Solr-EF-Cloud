@@ -38,7 +38,7 @@
 ### END INIT INFO
 
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-DAEMON=/opt/HTRC-Solr-EF-Setup/HTRC-Solr-EF-Cloud/script/htrc-ef-solr8-cmd-on-this-host.sh 
+DAEMON=/opt/HTRC-Solr-EF-Setup/HTRC-Solr-EF-Cloud/scripts/htrc-ef-solr8-cmd-on-this-host.sh 
 DESC=solrnode
 
 # Default defaults.  Can be overridden by the /etc/default/$NAME
