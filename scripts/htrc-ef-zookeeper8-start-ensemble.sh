@@ -6,5 +6,5 @@ for zookeeper_host in solr3 solr4 solr5 ; do
     # Zookeeper config file (which sets port etc) is determined by Zookeeper home
     # Zookeeper home is auto-magically determined from filesystem location of where zkServer.sh
 
-    ssh $zookeeper_host "$ZOOKEEPER_HOME/bin/zkServer.sh" start
+    ssh $zookeeper_host "$ZOOKEEPER8_HOME/bin/zkServer.sh" start
 done
