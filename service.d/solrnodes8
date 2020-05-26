@@ -59,6 +59,8 @@ if test "x$ENABLE_SOLRNODES8" != "xyes"; then
     exit 0
 fi
 
+. /lib/lsb/init-functions
+
 
 DAEMONUSER=${DAEMONUSER:-www-data}
 
