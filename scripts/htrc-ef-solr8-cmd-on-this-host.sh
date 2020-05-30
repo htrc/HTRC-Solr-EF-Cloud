@@ -31,7 +31,7 @@ while [ $i -lt $num_shards ] ; do
 
     if [ $solr_host = $short_hostname ] ; then
 
-	if [ "$solr_cmd" = "start"] ; then
+	if [ "$solr_cmd" = "start" ] ; then
 	    # Determine if this host is meant to have a Zookeeper running or not
 	    # If yes, check it's status and auto-start if it isn't running
 
