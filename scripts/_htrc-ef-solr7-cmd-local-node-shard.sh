@@ -26,8 +26,14 @@ if [ "x$SOLR7_AUTH_TYPE" != "x" ] ; then
     echo "  Setting environment variables SOLR_AUTH_TYPE and SOLR_AUTHENTICATION_OPTS"
     echo "  based on values in SOLR7_AUTH_TYPE and SOLR7_AUTHENTICATION_OPTS"
     
-    export SOLR_AUTH_TYPE="SOLR7_AUTH_TYPE"
+    export SOLR_AUTH_TYPE="$SOLR7_AUTH_TYPE"
     export SOLR_AUTHENTICATION_OPTS="$SOLR7_AUTHENTICATION_OPTS"
+fi
+
+if [ "x$ZOOKEEPER_SERVER_ENSEMBLE" != "x" ] ; then
+    zookeeper_server_list=$ZOOKEEPER_SERVER_ENSEMBLE
+else
+    zookeeper_server_list=$ZOOKEEPER_SERVER
 fi
 
 if [ $solr_cmd = "start" ] || [ $solr_cmd = "restart" ] ; then
@@ -37,13 +43,13 @@ if [ $solr_cmd = "start" ] || [ $solr_cmd = "restart" ] ; then
     fi
 
     export SOLR_STOP=$solr_stop_port    
-    "$SOLR7_TOP_LEVEL_HOME/bin/solr" $solr_cmd -cloud -z $ZOOKEEPER_SERVER \
+    "$SOLR7_TOP_LEVEL_HOME/bin/solr" $solr_cmd -cloud -z $zookeeper_server_list \
       -h $solr_host -p $solr_port -d "$server_dir" -s "$solr_home_shard_dir"
 elif [ $solr_cmd = "stop" ] ; then
     export SOLR_STOP=$solr_stop_port
     "$SOLR7_TOP_LEVEL_HOME/bin/solr" $solr_cmd -p $solr_port
 else
     # status
-    "$SOLR7_TOP_LEVEL_HOME/bin/solr" $solr_cmd -z $ZOOKEEPER_SERVER
+    "$SOLR7_TOP_LEVEL_HOME/bin/solr" $solr_cmd -z $zookeeper_server_list
 fi
 
