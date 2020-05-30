@@ -1,7 +1,7 @@
 #!/bin/bash
 
 htrc_ef_solr_cloud_script_dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-htrc_ef_home=$( cd "$( dirname $( dirname $htrc_ef_solr_cloud_script_dir ) )" && pwd )
+htrc_ef_home=$( cd "$( dirname "$( dirname "$htrc_ef_solr_cloud_script_dir" )" )" && pwd )
 
 if [ "x$SOLR8_TOP_LEVEL_HOME" == "x" ] ; then
   . "$htrc_ef_home/SETUP8.bash"
