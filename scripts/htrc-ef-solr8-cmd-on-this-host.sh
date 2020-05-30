@@ -64,7 +64,8 @@ while [ $i -lt $num_shards ] ; do
 			    echo "... Done"
 			fi
 		    fi
-
+		fi
+	    done
 	fi
 	. "$htrc_ef_solr_cloud_script_dir/_htrc-ef-solr8-cmd-local-node-shard.sh"
 
