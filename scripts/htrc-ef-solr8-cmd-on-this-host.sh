@@ -30,6 +30,42 @@ while [ $i -lt $num_shards ] ; do
     solr_host=${solr_node%:*}
 
     if [ $solr_host = $short_hostname ] ; then
+
+	if [ "$solr_cmd" = "start"] ; then
+	    # Determine if this host is meant to have a Zookeeper running or not
+	    # If yes, check it's status and auto-start if it isn't running
+
+	    if [ "x$ZOOKEEPER8_SERVER_ENSEMBLE" != "x" ] ; then
+		zookeeper_server_list=$ZOOKEEPER8_SERVER_ENSEMBLE
+	    else
+		zookeeper_server_list=$ZOOKEEPER8_SERVER
+	    fi
+
+	    zookeeper_servers_host_port=$(echo $zookeeper_server_list | sed 's/,/ /g')
+
+	    for zookeeper_host_port in $zookeeper_servers_host_port ; do
+		zookeeper_host=${zookeeper_host_port%:*}
+		
+		if [ "$zookeeper_host" = "$short_hostname" ] ; then
+		    # Yes there should be a Zookeeper running => check 'on-this-host' status
+		    # Note: the 'on-this-host' version of zookeeper status works
+		    # whether starting in Standalone mode or Ensemble configuration
+		    htrc-ef-zookeeper8-cli-on-this-host.sh status
+		    
+		    if [ $? != 0 ] ; then
+			echo "No Zookeeper Server running => Starting ..."
+			htrc-ef-zookeeper8-cli-on-this-host.sh start
+
+			# Time for one more check for good measure
+			htrc-ef-zookeeper8-cli-on-this-host.sh status
+			if [ $? != 0 ] ; then
+			    echo "Zookeeper Server needs to be running on this mahcine, but attempt to start failed" >&2
+			else
+			    echo "... Done"
+			fi
+		    fi
+
+	fi
 	. "$htrc_ef_solr_cloud_script_dir/_htrc-ef-solr8-cmd-local-node-shard.sh"
 
         if [ "$solr_cmd" = "status" ] ; then
