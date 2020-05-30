@@ -8,7 +8,8 @@ solr_port=${solr_node##*:}
     
 solr_stop_port=$((solr_port-100))
     
-server_dir="$SOLR8_SERVER_BASE_JETTY_DIR/solr-server-$solr_host-$solr_port"
+solr_server_dir="$SOLR8_SERVER_BASE_JETTY_DIR/solr-server-$solr_host-$solr_port"
+solr_pid_dir="$SOLR8_SERVER_BASE_JETTY_DIR"
 
 # Historically the following two environment variables used to be set in SETUP.sh
 # But this then didn't allow for running both a Solr7 and Solr8 alongside each other
@@ -16,10 +17,13 @@ server_dir="$SOLR8_SERVER_BASE_JETTY_DIR/solr-server-$solr_host-$solr_port"
 # we'll explicitly make sure they're not set
 export SOLR_HOME=
 export SOLR_PID_DIR=
-#export SOLR_PID_DIR="$solr_home_shard_dir"
 
+if [ $solr_cmd = "status" ] ; then    
+    echo "Running Solr8 command '$solr_cmd' for cloud node: $solr_host"
+else
+    echo "Running Solr8 command '$solr_cmd' for cloud node: $solr_host:$solr_port solr_home=$solr_home_shard_dir"
+fi
 
-echo "Running Solr8 command '$solr_cmd' for cloud node: $solr_host:$solr_port solr_home=$solr_home_shard_dir"
 echo "  STOP.PORT overridden to be auto-magically solr.port minus 100: $solr_stop_port"
 
 if [ "x$SOLR8_AUTH_TYPE" != "x" ] ; then    
@@ -56,14 +60,26 @@ if [ $solr_cmd = "start" ] || [ $solr_cmd = "restart" ] ; then
 	echo "  SOLR_JAVA_MEM=$SOLR_JAVA_MEM"
     fi
 
-    export STOP_PORT=$solr_stop_port    
+    export STOP_PORT=$solr_stop_port
+    export SOLR_PID_DIR=$solr_pid_dir
     "$SOLR8_TOP_LEVEL_HOME/bin/solr" $solr_cmd -cloud -z $zookeeper_server_list \
-      -h $solr_host -p $solr_port -d "$server_dir" -s "$solr_home_shard_dir"
+      -h $solr_host -p $solr_port -d "$solr_server_dir" -s "$solr_home_shard_dir"
 elif [ $solr_cmd = "stop" ] ; then
     export STOP_PORT=$solr_stop_port
+    export SOLR_PID_DIR=$solr_pid_dir
     "$SOLR8_TOP_LEVEL_HOME/bin/solr" $solr_cmd -p $solr_port
 else
     # status
-    "$SOLR8_TOP_LEVEL_HOME/bin/solr" $solr_cmd -z $zookeeper_server_list
+    export SOLR_PID_DIR=$solr_pid_dir
+
+    numSolrs=`find "$SOLR_PID_DIR" -name "solr-*.pid" -type f | wc -l | tr -d ' '`
+    if [ "$numSolrs" == "0" ]; then
+	echo "****" >&2
+	echo "* No solr-*.pid files in $SOLR_PID_DIR => No running Solr8 nodes detected on this host" >&2
+	echo "****" >&2
+	echo 1
+    else
+	"$SOLR8_TOP_LEVEL_HOME/bin/solr" $solr_cmd -z $zookeeper_server_list
+    fi	
 fi
 

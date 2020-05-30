@@ -3,6 +3,8 @@
 solr_cmd=${1-start}
 core_num=${2-null}
 
+solr_pid_dir="$SOLR8_SERVER_BASE_JETTY_DIR"
+
 if [ "x$SOLR8_SHARDS" != "x" ] ; then
     # Nodes and Shards specified
     # => allows for shards to be stored on different local disks
@@ -40,7 +42,7 @@ if [ "x$SOLR8_SHARDS" != "x" ] ; then
 	  if [ "x$SOLR_JAVA_MEM" != "x" ] ; then
 	    echo "=> SOLR_JAVA_MEM=$SOLR_JAVA_MEM"
 	  fi
-	  ssh $solr_host "export STOP_PORT=$solr_stop_port" \&\& \
+	  ssh $solr_host "export STOP_PORT=$solr_stop_port" \&\& "export SOLR_PID_DIR=$solr_pid_dir" \&\& \
   	      \"\$SOLR8_TOP_LEVEL_HOME/bin/solr\" $solr_cmd -cloud -z $ZOOKEEPER8_SERVER \
 	      -h $solr_host -p $solr_port -d "$server_dir" -s "$solr_home_shard_dir"
 	fi
@@ -78,7 +80,7 @@ else
 	echo "  STOP.PORT overridden to be auto-magically solr.port minus 100: $solr_stop_port"
 	
 #	ssh $solr_host "$SOLR8_TOP_LEVEL_HOME/bin/solr" $solr_cmd -cloud -z $ZOOKEEPER8_SERVER -h $solr_host -p $solr_port $opt_s
-	ssh $solr_host "export STOP_PORT=$solr_stop_port" \&\& \
+	ssh $solr_host "export STOP_PORT=$solr_stop_port" \&\& "export SOLR_PID_DIR=$solr_pid_dir" \&\& \
   	    \"\$SOLR8_TOP_LEVEL_HOME/bin/solr\" $solr_cmd -cloud -z $ZOOKEEPER8_SERVER \
 	    -h $solr_host -p $solr_port $opt_s
 	
