@@ -42,11 +42,11 @@ if [ $solr_cmd = "start" ] || [ $solr_cmd = "restart" ] ; then
 	echo "  SOLR_JAVA_MEM=$SOLR_JAVA_MEM"
     fi
 
-    export SOLR_STOP=$solr_stop_port    
+    export STOP_PORT=$solr_stop_port    
     "$SOLR7_TOP_LEVEL_HOME/bin/solr" $solr_cmd -cloud -z $zookeeper_server_list \
       -h $solr_host -p $solr_port -d "$server_dir" -s "$solr_home_shard_dir"
 elif [ $solr_cmd = "stop" ] ; then
-    export SOLR_STOP=$solr_stop_port
+    export STOP_PORT=$solr_stop_port
     "$SOLR7_TOP_LEVEL_HOME/bin/solr" $solr_cmd -p $solr_port
 else
     # status

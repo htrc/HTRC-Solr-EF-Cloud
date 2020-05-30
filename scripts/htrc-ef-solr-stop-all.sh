@@ -11,7 +11,7 @@ for solr_node in $SOLR_NODES ; do
   echo "Stopping Solr cloud node: $solr_host"
   #  ssh $solr_host solr stop -p $solr_port
 
-  ssh $solr_host "export SOLR_STOP=$solr_stop_port" \&\& \
+  ssh $solr_host "export STOP_PORT=$solr_stop_port" \&\& \
       \"\$SOLR7_TOP_LEVEL_HOME/bin/solr\" stop -p $solr_port 
 
 done

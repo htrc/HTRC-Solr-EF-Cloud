@@ -40,7 +40,7 @@ if [ "x$SOLR8_SHARDS" != "x" ] ; then
 	  if [ "x$SOLR_JAVA_MEM" != "x" ] ; then
 	    echo "=> SOLR_JAVA_MEM=$SOLR_JAVA_MEM"
 	  fi
-	  ssh $solr_host "export SOLR_STOP=$solr_stop_port" \&\& \
+	  ssh $solr_host "export STOP_PORT=$solr_stop_port" \&\& \
   	      \"\$SOLR8_TOP_LEVEL_HOME/bin/solr\" $solr_cmd -cloud -z $ZOOKEEPER8_SERVER \
 	      -h $solr_host -p $solr_port -d "$server_dir" -s "$solr_home_shard_dir"
 	fi
@@ -78,7 +78,7 @@ else
 	echo "  STOP.PORT overridden to be auto-magically solr.port minus 100: $solr_stop_port"
 	
 #	ssh $solr_host "$SOLR8_TOP_LEVEL_HOME/bin/solr" $solr_cmd -cloud -z $ZOOKEEPER8_SERVER -h $solr_host -p $solr_port $opt_s
-	ssh $solr_host "export SOLR_STOP=$solr_stop_port" \&\& \
+	ssh $solr_host "export STOP_PORT=$solr_stop_port" \&\& \
   	    \"\$SOLR8_TOP_LEVEL_HOME/bin/solr\" $solr_cmd -cloud -z $ZOOKEEPER8_SERVER \
 	    -h $solr_host -p $solr_port $opt_s
 	
