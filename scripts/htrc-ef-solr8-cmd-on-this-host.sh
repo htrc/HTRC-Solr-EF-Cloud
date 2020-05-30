@@ -21,6 +21,8 @@ num_shards=${#SOLR8_NODES_ARRAY[*]}
 
 short_hostname=`htrc-ef-short-hostname.sh`
 
+zookeeper_status_ok=0
+
 i=0
     
 while [ $i -lt $num_shards ] ; do
@@ -31,7 +33,7 @@ while [ $i -lt $num_shards ] ; do
 
     if [ $solr_host = $short_hostname ] ; then
 
-	if [ "$solr_cmd" = "start" ] ; then
+	if [ "$solr_cmd" = "start" ] && [ "$zookeeper_status_ok" = "0" ] ; then
 	    # Determine if this host is meant to have a Zookeeper running or not
 	    # If yes, check it's status and auto-start if it isn't running
 
@@ -62,6 +64,7 @@ while [ $i -lt $num_shards ] ; do
 			    echo "Zookeeper Server needs to be running on this mahcine, but attempt to start failed" >&2
 			else
 			    echo "... Done"
+			    zookeeper_status_ok=1
 			fi
 		    fi
 		fi
