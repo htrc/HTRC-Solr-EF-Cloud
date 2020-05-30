@@ -2,7 +2,7 @@
 
 solr_cmd=${1:-start}
 
-if [ "x$ZOOKEEPER8_SERVER_ENEMBLE" != "x" ] ; then
+if [ "x$ZOOKEEPER8_SERVER_ENSEMBLE" != "x" ] ; then
     zookeeper_server_list=$ZOOKEEPER8_SERVER_ENSEMBLE
 else
     zookeeper_server_list=$ZOOKEEPER8_SERVER
