@@ -9,7 +9,11 @@ fi
 
 zookeeper_cmd=${1:-status}
 
-echo "For Zookeeper Ensemble Node on this host: Running command '$zookeeper_cmd'"
+if [ "x$ZOOKEEPER8_SERVER_ENSEMBLE" != "x" ] ; then
+    echo "For Zookeeper Ensemble Node on this host: Running command '$zookeeper_cmd'"    
+else
+    echo "Zookeeper in Standalone mode: Running command '$zookeeper_cmd'"
+fi
 
 # Zookeeper config file (which sets port etc) is determined by Zookeeper home
 # Zookeeper home is auto-magically determined from filesystem location of where zkServer.sh
