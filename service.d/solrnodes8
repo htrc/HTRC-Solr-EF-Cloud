@@ -97,7 +97,7 @@ case "$1" in
         if start_server ; then
             log_end_msg 0
         else
-            # Either we could not start it
+            # We could not start it
             log_end_msg 1
         fi
 	;;
