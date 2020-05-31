@@ -2,6 +2,14 @@
 
 solr_cmd=${1:-start}
 
+if [ "x$ZOOKEEPER8_SERVER_ENSEMBLE" != "x" ] ; then
+    zookeeper_server_list=$ZOOKEEPER8_SERVER_ENSEMBLE
+else
+    zookeeper_server_list=$ZOOKEEPER8_SERVER
+fi
+
+solr_pid_dir="$SOLR_SERVER_BASE_JETTY_DIR"
+
 if [ "x$SOLR_SHARDS" != "x" ] ; then
     # Nodes and Shards specified
     # => allows for shards to be stored on different local disks
@@ -37,8 +45,8 @@ if [ "x$SOLR_SHARDS" != "x" ] ; then
 	if [ "x$SOLR_JAVA_MEM" != "x" ] ; then
 	    echo "  SOLR_JAVA_MEM=$SOLR_JAVA_MEM"
 	fi	
-#	ssh $solr_host solr $solr_cmd -cloud -z $ZOOKEEPER_SERVER -h $solr_host -p $solr_port -d "$server_dir" -s "$solr_home_shard_dir"
-	ssh $solr_host "export STOP_PORT=$solr_stop_port" \&\& \
+
+	ssh $solr_host "export STOP_PORT=$solr_stop_port" \&\& "export SOLR_PID_DIR=$solr_pid_dir" \&\& \
 	    \"\$SOLR7_TOP_LEVEL_HOME/bin/solr\" $solr_cmd -cloud -z $ZOOKEEPER_SERVER \
 	    -h $solr_host -p $solr_port -d "$server_dir" -s "$solr_home_shard_dir"
 	
@@ -53,8 +61,10 @@ else
 
 
     if [ $run_from_local_disk = "1" ] ; then
+	# Control solr.home through -s argument
 	opt_s="-s $local_dir"
 	export SOLR_HOME=
+	export SOLR_PID_DIR=
 	echo "****"
 	echo "* Running solr from local disk: $local_dir"
 	echo "****"
@@ -70,8 +80,7 @@ else
 	echo "Starting solr cloud node on: $solr_host [port $solr_port]"
 	echo "  STOP.PORT overridden to be auto-magically solr.port minus 100: $solr_stop_port"
 	
-#	ssh $solr_host solr $solr_cmd -cloud -z $ZOOKEEPER_SERVER -h $solr_host -p $solr_port $opt_s
-	ssh $solr_host "export STOP_PORT=$solr_stop_port" \&\& \
+	ssh $solr_host "export STOP_PORT=$solr_stop_port" \&\& "export SOLR_PID_DIR=$solr_pid_dir" \&\& \
 	    \"\$SOLR7_TOP_LEVEL_HOME/bin/solr\" $solr_cmd -cloud -z $ZOOKEEPER_SERVER \
 	    -h $solr_host -p $solr_port $opt_s
 	

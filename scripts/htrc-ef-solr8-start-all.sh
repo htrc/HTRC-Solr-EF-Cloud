@@ -61,7 +61,7 @@ else
     #local_dir="/tmp/solr-ef"
     local_dir="/hdfsd05/dbbridge/solr-ef"
 
-
+    
     if [ $run_from_local_disk = "1" ] ; then
 	# Control solr.home through -s argument
 	opt_s="-s $local_dir"
@@ -82,7 +82,6 @@ else
 	echo "Starting solr8 cloud node on: $solr_host [port $solr_port]"
 	echo "  STOP.PORT overridden to be auto-magically solr.port minus 100: $solr_stop_port"
 	
-#	ssh $solr_host "$SOLR8_TOP_LEVEL_HOME/bin/solr" $solr_cmd -cloud -z $zookeeper_server_list -h $solr_host -p $solr_port $opt_s
 	ssh $solr_host "export STOP_PORT=$solr_stop_port" \&\& "export SOLR_PID_DIR=$solr_pid_dir" \&\& \
 	    \"\$SOLR8_TOP_LEVEL_HOME/bin/solr\" $solr_cmd -cloud -z $zookeeper_server_list \
 	    -h $solr_host -p $solr_port $opt_s

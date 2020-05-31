@@ -70,9 +70,10 @@ while [ $i -lt $num_shards ] ; do
 		fi
 	    done
 	fi
+
 	. "$htrc_ef_solr_cloud_script_dir/_htrc-ef-solr8-cmd-local-node-shard.sh"
 
-        if [ "$solr_cmd" = "status" ] ; then
+	if [ "$solr_cmd" = "status" ] ; then
 	    # Solr 'status' command prints out details about *all* the nodes known about
 	    # on *this* *specific* *machine* in the Solr cloud/cluster
 	    # => So no need to loop around any more values
