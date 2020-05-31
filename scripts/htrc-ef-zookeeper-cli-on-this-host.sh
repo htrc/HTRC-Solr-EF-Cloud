@@ -18,4 +18,5 @@ fi
 # Zookeeper config file (which sets port etc) is determined by Zookeeper home
 # Zookeeper home is auto-magically determined from filesystem location of where zkServer.sh
 
+export ZOO_LOG_DIR="$ZOOKEEPER_HOME/logs"
 "$ZOOKEEPER_HOME/bin/zkServer.sh" $zookeeper_cmd
