@@ -35,16 +35,22 @@ if [ "x$SOLR8_AUTH_TYPE" != "x" ] ; then
 else
     # Dig out the information from the realm.properties file int he Jetty config area
 
-    echo "  Setting environment variables SOLR_AUTH_TYPE and SOLR_AUTHENTICATION_OPTS"
-    echo "  based on values in $SOLR8_TOP_LEVEL_HOME/server/etc/realm.properties"
-    
-    pass_and_user=$( cat "$SOLR8_TOP_LEVEL_HOME/server/etc/realm.properties" | awk -F: '{print $2}')
-    pass=${pass_and_user%,*}
-    pass=${pass# } # strip off leading space
-    user=${pass_and_user##*, }
-    
-    export SOLR_AUTH_TYPE="basic"
-    export SOLR_AUTHENTICATION_OPTS="-Dbasicauth=$user:$pass"
+    if [ -f "$SOLR8_TOP_LEVEL_HOME/server/etc/realm.properties" ] ; then
+	echo "  Setting environment variables SOLR_AUTH_TYPE and SOLR_AUTHENTICATION_OPTS"
+	echo "  based on values in $SOLR8_TOP_LEVEL_HOME/server/etc/realm.properties"
+	
+	pass_and_user=$( cat "$SOLR8_TOP_LEVEL_HOME/server/etc/realm.properties" | awk -F: '{print $2}')
+	pass=${pass_and_user%,*}
+	pass=${pass# } # strip off leading space
+	user=${pass_and_user##*, }
+	
+	export SOLR_AUTH_TYPE="basic"
+	export SOLR_AUTHENTICATION_OPTS="-Dbasicauth=$user:$pass"
+    else
+	echo "Environment variable SOLR8_AUTH_TYPE not set"
+	echo "AND failed to find: $SOLR8_TOP_LEVEL_HOME/server/etc/realm.properties"
+	echo "=> Assuming Solr node does not need authentication to access"
+    fi    	
 fi
 
 
