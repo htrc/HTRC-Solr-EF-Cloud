@@ -58,6 +58,9 @@ while [ $i -lt $num_shards ] ; do
 			echo "No Zookeeper Server running => Starting ..."
 			htrc-ef-zookeeper8-cli-on-this-host.sh start
 
+			# Give it a couple of seconds to start up
+			sleep 2
+			
 			# Time for one more check for good measure
 			htrc-ef-zookeeper8-cli-on-this-host.sh status
 			if [ $? != 0 ] ; then
