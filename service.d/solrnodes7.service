@@ -8,6 +8,8 @@ After=network.target
 [Service]
 Type=forking
 User=www-data
+TimeoutStartSec=180
+TimeoutStopSec=240
 ExecStart=/usr/bin/env bash /opt/HTRC-Solr-EF-Setup/HTRC-Solr-EF-Cloud/scripts/htrc-ef-solr7-cmd-on-this-host.sh start
 ExecStop=/usr/bin/env bash /opt/HTRC-Solr-EF-Setup/HTRC-Solr-EF-Cloud/scripts/htrc-ef-solr7-cmd-on-this-host.sh stop
 #
