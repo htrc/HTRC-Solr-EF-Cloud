@@ -1,3 +1,3 @@
 #!/bin/bash
 
-htrc-ef-zookeeper-cli-ensemble.sh stop
+htrc-ef-zookeeper-service-ensemble.sh stop

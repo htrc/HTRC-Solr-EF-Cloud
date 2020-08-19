@@ -52,17 +52,17 @@ while [ $i -lt $num_shards ] ; do
 		    # Yes there should be a Zookeeper running => check 'on-this-host' status
 		    # Note: the 'on-this-host' version of zookeeper status works
 		    # whether starting in Standalone mode or Ensemble configuration
-		    htrc-ef-zookeeper8-cli-on-this-host.sh status
+		    htrc-ef-zookeeper8-service-on-this-host.sh status
 		    
 		    if [ $? != 0 ] ; then
 			echo "No Zookeeper Server running => Starting ..."
-			htrc-ef-zookeeper8-cli-on-this-host.sh start
+			htrc-ef-zookeeper8-service-on-this-host.sh start
 
 			# Give it a couple of seconds to start up
 			sleep 2
 			
 			# Time for one more check for good measure
-			htrc-ef-zookeeper8-cli-on-this-host.sh status
+			htrc-ef-zookeeper8-service-on-this-host.sh status
 			if [ $? != 0 ] ; then
 			    echo "Zookeeper Server needs to be running on this mahcine, but attempt to start failed" >&2
 			else

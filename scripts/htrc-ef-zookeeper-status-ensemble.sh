@@ -1,3 +1,3 @@
 #!/bin/bash
 
-htrc-ef-zookeeper-cli-ensemble.sh status
+htrc-ef-zookeeper-service-ensemble.sh status
