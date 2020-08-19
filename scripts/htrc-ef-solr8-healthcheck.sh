@@ -3,6 +3,13 @@
 export SOLR_HOME=
 export SOLR_PID_DIR=
 
+if [ "x$ZOOKEEPER8_SERVER_ENSEMBLE" != "x" ] ; then
+    zookeeper_server_list=$ZOOKEEPER8_SERVER_ENSEMBLE
+else
+    zookeeper_server_list=$ZOOKEEPER8_SERVER
+fi
+
+
 #if [ "x$short_hostname" = "x" ] ; then
 #    echo "" >&2
 #    echo "Error: Unclear which Solr cloud is being used (short_hostname not defined)" >&2
@@ -20,6 +27,6 @@ else
     col=${1:-solr3456-faceted-htrc-full-ef16}
 fi
 
-"$SOLR8_TOP_LEVEL_HOME/bin/solr" healthcheck -c "$col" -z $ZOOKEEPER8_SERVER
+"$SOLR8_TOP_LEVEL_HOME/bin/solr" healthcheck -c "$col" -z $zookeeper_server_lsit
 
 
