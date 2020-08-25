@@ -4,4 +4,4 @@
 #   i) remove full domain trailing suffix
 #   ii) remove 'is-' prefix that turns up on machines like solr3
 
-echo $(uname -n | sed 's/\..*//' | sed 's/^is-//')
+echo $(uname -n | sed 's/\..*//' | sed 's/^is-//' | sed 's/peachpalm/solr7/' | sed 's/royalpalm/solr8/')
