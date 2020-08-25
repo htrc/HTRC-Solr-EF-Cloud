@@ -32,7 +32,13 @@ if [ "x$SOLR8_SHARDS" != "x" ] ; then
 	    systemctl_user="www-data"
 	    systemctl_group="htrc-solr"
 	fi
-	
+
+	if [ $solr_host = "solr7" ] || [ $solr_host = "solr8" ] ; then
+	    echo "Adjusting user and group to 'www-data' and 'htrc-solr' as $solr_host uses AD (Active Directory)"
+	    systemctl_user="www-data"
+	    systemctl_group="htrc-solr"
+	fi
+
 	server_dir="$SOLR8_SERVER_BASE_JETTY_DIR/solr-server-$solr_host-$solr_port"
 	server_logs="$server_dir/logs"
 
